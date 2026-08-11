@@ -415,12 +415,7 @@ def main():
     app.add_handler(CommandHandler("admin",        cmd_admin))
 
     # Inicia o agendador em paralelo
-    try:
-    loop = asyncio.get_running_loop()
-except RuntimeError:
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-
+   loop = asyncio.get_event_loop()
 loop.create_task(rodar_buscas_agendadas(app))
 
     app.run_polling()
