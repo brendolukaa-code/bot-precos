@@ -414,12 +414,12 @@ def main():
     app.add_handler(CommandHandler("buscar_agora", cmd_buscar_agora))
     app.add_handler(CommandHandler("admin",        cmd_admin))
 
-    # Inicia o agendador em paralelo
-   loop = asyncio.get_event_loop()
-   loop.create_task(rodar_buscas_agendadas(app))
-
+     # Inicia o agendador em paralelo
+    loop = asyncio.get_event_loop()
+    loop.create_task(rodar_buscas_agendadas(app))
+ 
     app.run_polling()
-
-
+ 
+ 
 if __name__ == "__main__":
     main()
