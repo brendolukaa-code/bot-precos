@@ -416,7 +416,7 @@ def main():
 
     # Inicia o agendador em paralelo
    loop = asyncio.get_event_loop()
-loop.create_task(rodar_buscas_agendadas(app))
+   loop.create_task(rodar_buscas_agendadas(app))
 
     app.run_polling()
 
