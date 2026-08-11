@@ -370,7 +370,26 @@ async def rodar_buscas_agendadas(app: Application):
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 
+import os
+import asyncio
+from telegram.ext import (
+    Application,
+    CommandHandler,
+    MessageHandler,
+    ConversationHandler,
+    filters,
+)
+
+# Captura e valida o token das variáveis de ambiente
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
+
 def main():
+    # Trava de segurança para identificar falha de leitura da variável
+    if not TELEGRAM_TOKEN:
+        raise ValueError(
+            "ERRO: A variável TELEGRAM_TOKEN não foi encontrada ou está vazia no painel de deploy!"
+        )
+
     db.inicializar()
 
     app = Application.builder().token(TELEGRAM_TOKEN).build()
@@ -379,7 +398,7 @@ def main():
     conv = ConversationHandler(
         entry_points=[CommandHandler("monitorar", cmd_monitorar)],
         states={
-            AGUARDA_PRODUTO:        [MessageHandler(filters.TEXT & ~filters.COMMAND, receber_produto)],
+            AGUARDA_PRODUTO:       [MessageHandler(filters.TEXT & ~filters.COMMAND, receber_produto)],
             AGUARDA_PRECO_ALVO:     [MessageHandler(filters.TEXT & ~filters.COMMAND, receber_preco_alvo)],
             AGUARDA_PRECO_MERCADO:  [MessageHandler(filters.TEXT & ~filters.COMMAND, receber_preco_mercado)],
             AGUARDA_HORARIO:        [MessageHandler(filters.TEXT & ~filters.COMMAND, receber_horario)],
